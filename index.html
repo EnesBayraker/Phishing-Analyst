@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Phishing Analyst helps users analyze suspicious URLs and messages for cybersecurity awareness."
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Phishing Analyst</title>
+  </head>
+
+  <body>
+    <main class="app-shell">
+      <section class="hero-card">
+        <p class="eyebrow">Cybersecurity awareness dashboard</p>
+
+        <h1>Phishing Analyst</h1>
+
+        <p class="hero-description">
+          Analyze suspicious URLs and message content directly in your browser.
+          This project does not visit URLs, use external APIs, or send your data
+          to a server.
+        </p>
+
+        <div class="hero-actions">
+          <a class="primary-button" href="#url-analysis">Analyze URL</a>
+          <a class="secondary-button" href="#message-analysis">Analyze Message</a>
+        </div>
+      </section>
+
+      <section class="dashboard-grid" aria-label="Project feature overview">
+        <article id="url-analysis" class="feature-card">
+          <h2>URL Analysis</h2>
+          <p>
+            Check suspicious URL patterns such as missing HTTPS, IP-based
+            domains, shorteners, unusual symbols, and risky keywords.
+          </p>
+          <span class="status-pill">Coming soon</span>
+        </article>
+
+        <article id="message-analysis" class="feature-card">
+          <h2>Message Analysis</h2>
+          <p>
+            Detect social engineering signals such as urgency, account warnings,
+            reward promises, and requests for sensitive information.
+          </p>
+          <span class="status-pill">Coming soon</span>
+        </article>
+
+        <article class="feature-card">
+          <h2>Learning Center</h2>
+          <p>
+            Learn how phishing works, how to inspect URLs, and why HTTPS alone
+            is not a complete safety guarantee.
+          </p>
+          <span class="status-pill">Coming soon</span>
+        </article>
+
+        <article class="feature-card">
+          <h2>Scenario Quiz</h2>
+          <p>
+            Practice with realistic phishing scenarios and get explanations after
+            each answer.
+          </p>
+          <span class="status-pill">Coming soon</span>
+        </article>
+      </section>
+
+      <section class="disclaimer-card">
+        <h2>Security Disclaimer</h2>
+        <p>
+          Phishing Analyst is an educational awareness project. It cannot
+          guarantee that a URL or message is safe or malicious. Always verify
+          suspicious links through official sources and avoid clicking unknown
+          links.
+        </p>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
