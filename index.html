@@ -12,57 +12,142 @@
   </head>
 
   <body>
-    <main class="app-shell">
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Phishing Analyst home">
+        <span class="brand-icon">PA</span>
+        <span>Phishing Analyst</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="#url-analysis">URL Analysis</a>
+        <a href="#message-analysis">Message Analysis</a>
+        <a href="#history">History</a>
+        <a href="#learning">Learning</a>
+        <a href="#quiz">Quiz</a>
+      </nav>
+    </header>
+
+    <main id="top" class="app-shell">
       <section class="hero-card">
-        <p class="eyebrow">Cybersecurity awareness dashboard</p>
+        <div>
+          <p class="eyebrow">Cybersecurity awareness dashboard</p>
 
-        <h1>Phishing Analyst</h1>
+          <h1>Analyze suspicious links before you trust them.</h1>
 
-        <p class="hero-description">
-          Analyze suspicious URLs and message content directly in your browser.
-          This project does not visit URLs, use external APIs, or send your data
-          to a server.
-        </p>
+          <p class="hero-description">
+            Phishing Analyst helps users review suspicious URLs and message
+            content directly in the browser. It gives awareness-based risk
+            feedback without visiting links or sending user data to a server.
+          </p>
 
-        <div class="hero-actions">
-          <a class="primary-button" href="#url-analysis">Analyze URL</a>
-          <a class="secondary-button" href="#message-analysis">Analyze Message</a>
+          <div class="hero-actions">
+            <a class="primary-button" href="#url-analysis">Analyze URL</a>
+            <a class="secondary-button" href="#message-analysis">
+              Analyze Message
+            </a>
+          </div>
+        </div>
+
+        <aside class="hero-summary" aria-label="Project safety principles">
+          <h2>Safety-first design</h2>
+
+          <ul>
+            <li>No external security API</li>
+            <li>No backend or database</li>
+            <li>No automatic URL visits</li>
+            <li>Client-side analysis only</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section class="section-block" aria-labelledby="analysis-title">
+        <div class="section-heading">
+          <p class="eyebrow">Core tools</p>
+          <h2 id="analysis-title">Analysis workspace</h2>
+          <p>
+            The main analysis tools will be placed here. Each tool will guide
+            the user with clear input validation, risk explanations, and safe
+            next-step recommendations.
+          </p>
+        </div>
+
+        <div class="analysis-grid">
+          <article id="url-analysis" class="tool-card">
+            <div class="card-topline">
+              <span class="card-icon">🔗</span>
+              <span class="status-pill">Coming soon</span>
+            </div>
+
+            <h3>URL Analysis</h3>
+
+            <p>
+              Checks visible URL patterns such as HTTPS usage, suspicious
+              keywords, IP-based domains, shortened links, unusual characters,
+              and misleading structures.
+            </p>
+
+            <button class="disabled-action" type="button" disabled>
+              URL form will be added soon
+            </button>
+          </article>
+
+          <article id="message-analysis" class="tool-card">
+            <div class="card-topline">
+              <span class="card-icon">✉️</span>
+              <span class="status-pill">Coming soon</span>
+            </div>
+
+            <h3>Message Analysis</h3>
+
+            <p>
+              Reviews message or email text for social engineering signals such
+              as urgency, reward promises, account warnings, and sensitive
+              information requests.
+            </p>
+
+            <button class="disabled-action" type="button" disabled>
+              Message form will be added soon
+            </button>
+          </article>
         </div>
       </section>
 
-      <section class="dashboard-grid" aria-label="Project feature overview">
-        <article id="url-analysis" class="feature-card">
-          <h2>URL Analysis</h2>
+      <section id="history" class="section-block" aria-labelledby="history-title">
+        <div class="section-heading">
+          <p class="eyebrow">Local history</p>
+          <h2 id="history-title">Analysis History</h2>
           <p>
-            Check suspicious URL patterns such as missing HTTPS, IP-based
-            domains, shorteners, unusual symbols, and risky keywords.
+            Previous analyses will be stored in localStorage so users can review
+            their recent checks without sending data anywhere.
           </p>
-          <span class="status-pill">Coming soon</span>
-        </article>
+        </div>
 
-        <article id="message-analysis" class="feature-card">
-          <h2>Message Analysis</h2>
+        <article class="empty-state-card">
+          <h3>No analysis history yet</h3>
           <p>
-            Detect social engineering signals such as urgency, account warnings,
-            reward promises, and requests for sensitive information.
+            Once URL and message analysis features are implemented, recent
+            results will appear here with risk level filters.
           </p>
-          <span class="status-pill">Coming soon</span>
         </article>
+      </section>
 
-        <article class="feature-card">
+      <section class="preview-grid" aria-label="Learning and quiz preview">
+        <article id="learning" class="feature-card">
+          <span class="card-icon">📚</span>
           <h2>Learning Center</h2>
           <p>
-            Learn how phishing works, how to inspect URLs, and why HTTPS alone
-            is not a complete safety guarantee.
+            Short educational cards will explain phishing, URL inspection,
+            HTTPS limitations, and common social engineering tactics.
           </p>
           <span class="status-pill">Coming soon</span>
         </article>
 
-        <article class="feature-card">
+        <article id="quiz" class="feature-card">
+          <span class="card-icon">🧠</span>
           <h2>Scenario Quiz</h2>
           <p>
-            Practice with realistic phishing scenarios and get explanations after
-            each answer.
+            Users will practice with realistic phishing scenarios, choose an
+            answer, and receive a clear explanation after each question.
           </p>
           <span class="status-pill">Coming soon</span>
         </article>
@@ -78,6 +163,13 @@
         </p>
       </section>
     </main>
+
+    <footer class="site-footer">
+      <p>
+        Built with HTML5, CSS3, JavaScript, and Vite. No backend. No database.
+        No authentication.
+      </p>
+    </footer>
 
     <script type="module" src="/src/main.js"></script>
   </body>

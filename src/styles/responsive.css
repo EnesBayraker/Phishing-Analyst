@@ -1,21 +1,47 @@
 @media (max-width: 960px) {
-  .dashboard-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .site-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .site-nav {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .hero-card {
+    grid-template-columns: 1fr;
+  }
+
+  .analysis-grid,
+  .preview-grid {
+    grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 640px) {
-  .app-shell {
+  .site-header,
+  .app-shell,
+  .site-footer {
     width: min(100% - 20px, 1120px);
-    padding: 24px 0;
+  }
+
+  .site-nav {
+    gap: 14px;
+  }
+
+  .site-nav a {
+    white-space: nowrap;
+    font-size: 0.9rem;
+  }
+
+  .app-shell {
+    padding: 18px 0 32px;
   }
 
   .hero-card {
     padding: 28px;
-  }
-
-  .dashboard-grid {
-    grid-template-columns: 1fr;
   }
 
   .hero-actions {
@@ -25,5 +51,12 @@
   .primary-button,
   .secondary-button {
     width: 100%;
+  }
+
+  .tool-card,
+  .feature-card,
+  .empty-state-card,
+  .disclaimer-card {
+    padding: 20px;
   }
 }
