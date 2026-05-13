@@ -7,7 +7,7 @@
   .site-nav {
     width: 100%;
     overflow-x: auto;
-    padding-bottom: 4px;
+    padding-bottom: 10px;
   }
 
   .hero-card {
@@ -27,8 +27,13 @@
     width: min(100% - 20px, 1120px);
   }
 
+  .site-header {
+    padding: 12px 0;
+  }
+
   .site-nav {
     gap: 14px;
+    border-radius: var(--radius-md);
   }
 
   .site-nav a {
@@ -42,6 +47,10 @@
 
   .hero-card {
     padding: 28px;
+  }
+
+  .hero-card h1 {
+    letter-spacing: -0.04em;
   }
 
   .hero-actions {
