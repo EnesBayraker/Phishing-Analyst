@@ -73,23 +73,46 @@
 
         <div class="analysis-grid">
           <article id="url-analysis" class="tool-card">
-            <div class="card-topline">
-              <span class="card-icon">🔗</span>
-              <span class="status-pill">Coming soon</span>
-            </div>
+  <div class="card-topline">
+    <span class="card-icon">🔗</span>
+    <span class="status-pill">Interactive</span>
+  </div>
 
-            <h3>URL Analysis</h3>
+  <h3>URL Analysis</h3>
 
-            <p>
-              Checks visible URL patterns such as HTTPS usage, suspicious
-              keywords, IP-based domains, shortened links, unusual characters,
-              and misleading structures.
-            </p>
+  <p>
+    Enter a suspicious URL to check whether it matches common phishing
+    patterns. The app will not visit the URL or send it to any server.
+  </p>
 
-            <button class="disabled-action" type="button" disabled>
-              URL form will be added soon
-            </button>
-          </article>
+  <form id="url-analysis-form" class="tool-form" novalidate>
+    <div class="input-group">
+      <label class="field-label" for="url-input">Suspicious URL</label>
+
+      <input
+        id="url-input"
+        class="text-input"
+        type="text"
+        name="url"
+        placeholder="example.com/login or https://example.com"
+        autocomplete="off"
+      />
+
+      <p class="helper-text">
+        Tip: You can paste a full URL or a domain-like link. Do not click
+        suspicious links before checking them.
+      </p>
+
+      <p id="url-error" class="form-message form-message-error" aria-live="polite"></p>
+    </div>
+
+    <button class="primary-button form-button" type="submit">
+      Analyze URL
+    </button>
+  </form>
+
+  <div id="url-validation-result" class="validation-result" hidden></div>
+</article>
 
           <article id="message-analysis" class="tool-card">
             <div class="card-topline">

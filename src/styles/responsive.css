@@ -58,9 +58,10 @@
   }
 
   .primary-button,
-  .secondary-button {
+  .secondary-button,
+  .form-button {
     width: 100%;
-  }
+}
 
   .tool-card,
   .feature-card,
