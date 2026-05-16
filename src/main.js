@@ -3,7 +3,9 @@ import './styles/layout.css';
 import './styles/components.css';
 import './styles/responsive.css';
 
+import { analyzeUrl } from './analyzer/urlAnalyzer.js';
 import { domElements } from './ui/domElements.js';
+import { renderBasicUrlResult } from './ui/renderResult.js';
 import { validateUrlInput } from './utils/validators.js';
 
 function initializeApp() {
@@ -27,25 +29,32 @@ function handleUrlFormSubmit(event) {
   const { urlInput } = domElements;
   const validation = validateUrlInput(urlInput.value);
 
-  renderUrlValidationFeedback(validation);
+  resetUrlFeedback();
+
+  if (!validation.isValid) {
+    renderUrlValidationError(validation.message);
+    return;
+  }
+
+  const analysisResult = analyzeUrl(urlInput.value);
+
+  renderBasicUrlResult(domElements.urlValidationResult, analysisResult);
+  console.log('URL analysis result:', analysisResult);
 }
 
-function renderUrlValidationFeedback(validation) {
+function resetUrlFeedback() {
   const { urlError, urlValidationResult } = domElements;
 
   urlError.textContent = '';
   urlValidationResult.hidden = true;
   urlValidationResult.textContent = '';
   urlValidationResult.className = 'validation-result';
+}
 
-  if (!validation.isValid) {
-    urlError.textContent = validation.message;
-    return;
-  }
+function renderUrlValidationError(message) {
+  const { urlError } = domElements;
 
-  urlValidationResult.hidden = false;
-  urlValidationResult.textContent = validation.message;
-  urlValidationResult.classList.add('validation-result-success');
+  urlError.textContent = message;
 }
 
 initializeApp();
