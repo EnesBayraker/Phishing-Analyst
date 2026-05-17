@@ -54,10 +54,11 @@ function createFindingsHtml(findings) {
   const findingItems = findings
     .map((finding) => {
       return `
-        <li>
-          <strong>${finding.title}</strong>
-          <span>${finding.description}</span>
-        </li>
+       <li>
+  <strong>${finding.title}</strong>
+  <span class="finding-points">+${finding.points} risk points</span>
+  <span class="finding-description">${finding.description}</span>
+      </li>
       `;
     })
     .join('');
