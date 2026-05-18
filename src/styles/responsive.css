@@ -69,4 +69,21 @@
   .disclaimer-card {
     padding: 20px;
   }
+
+    .result-header {
+    flex-direction: column;
+  }
+
+  .result-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .finding-item {
+    flex-direction: column;
+  }
+
+  .finding-item .finding-points {
+    width: fit-content;
+  }
+
 }

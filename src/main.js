@@ -5,7 +5,7 @@ import './styles/responsive.css';
 
 import { analyzeUrl } from './analyzer/urlAnalyzer.js';
 import { domElements } from './ui/domElements.js';
-import { renderBasicUrlResult } from './ui/renderResult.js';
+import { renderUrlResult } from './ui/renderResult.js';
 import { validateUrlInput } from './utils/validators.js';
 
 function initializeApp() {
@@ -38,7 +38,7 @@ function handleUrlFormSubmit(event) {
 
   const analysisResult = analyzeUrl(urlInput.value);
 
-  renderBasicUrlResult(domElements.urlValidationResult, analysisResult);
+  renderUrlResult(domElements.urlValidationResult, analysisResult);
   console.log('URL analysis result:', analysisResult);
 }
 
@@ -48,7 +48,7 @@ function resetUrlFeedback() {
   urlError.textContent = '';
   urlValidationResult.hidden = true;
   urlValidationResult.textContent = '';
-  urlValidationResult.className = 'validation-result';
+  urlValidationResult.className = '';
 }
 
 function renderUrlValidationError(message) {

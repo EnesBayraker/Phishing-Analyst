@@ -405,3 +405,228 @@
   color: var(--color-muted);
   line-height: 1.5;
 }
+
+.analysis-result {
+  margin-top: var(--space-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
+}
+
+.analysis-result-low {
+  border-color: rgba(56, 211, 159, 0.3);
+}
+
+.analysis-result-medium {
+  border-color: rgba(245, 184, 75, 0.34);
+}
+
+.analysis-result-high {
+  border-color: rgba(255, 92, 112, 0.38);
+}
+
+.result-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.result-kicker {
+  margin: 0 0 6px;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.result-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.risk-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: max-content;
+  padding: 7px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.risk-badge-low {
+  background: rgba(56, 211, 159, 0.14);
+  color: var(--color-low-risk);
+}
+
+.risk-badge-medium {
+  background: rgba(245, 184, 75, 0.14);
+  color: var(--color-medium-risk);
+}
+
+.risk-badge-high {
+  background: rgba(255, 92, 112, 0.14);
+  color: var(--color-high-risk);
+}
+
+.score-panel {
+  margin-top: var(--space-lg);
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: rgba(7, 17, 31, 0.48);
+}
+
+.score-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  color: var(--color-muted-strong);
+  font-weight: 700;
+}
+
+.score-track {
+  height: 10px;
+  margin-top: var(--space-sm);
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.score-fill {
+  height: 100%;
+  border-radius: inherit;
+}
+
+.score-fill-low {
+  background: var(--color-low-risk);
+}
+
+.score-fill-medium {
+  background: var(--color-medium-risk);
+}
+
+.score-fill-high {
+  background: var(--color-high-risk);
+}
+
+.score-panel p {
+  margin: var(--space-sm) 0 0;
+  color: var(--color-muted);
+  line-height: 1.6;
+}
+
+.result-meta {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.result-meta div {
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.result-meta span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.result-meta strong {
+  overflow-wrap: anywhere;
+}
+
+.result-section {
+  margin-top: var(--space-lg);
+}
+
+.result-section h4 {
+  margin: 0 0 var(--space-sm);
+  font-size: 1rem;
+}
+
+.finding-list,
+.recommendation-list {
+  display: grid;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.finding-item {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.finding-item strong {
+  display: block;
+  color: var(--color-muted-strong);
+}
+
+.finding-item span {
+  display: block;
+  margin-top: 6px;
+  color: var(--color-muted);
+  line-height: 1.5;
+}
+
+.finding-item .finding-points {
+  min-width: max-content;
+  height: fit-content;
+  margin-top: 0;
+  padding: 4px 9px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-muted-strong);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.recommendation-list li {
+  padding: var(--space-sm) var(--space-md);
+  border-left: 3px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-muted-strong);
+  line-height: 1.5;
+}
+
+.info-note,
+.empty-result-note {
+  margin-top: var(--space-md);
+  padding: var(--space-md);
+  border: 1px solid rgba(56, 211, 159, 0.22);
+  border-radius: var(--radius-md);
+  background: rgba(56, 211, 159, 0.08);
+  color: var(--color-muted-strong);
+  line-height: 1.6;
+}
+
+.empty-result-note p {
+  margin: 6px 0 0;
+  color: var(--color-muted);
+}
+
+.safe-note {
+  margin: var(--space-lg) 0 0;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
