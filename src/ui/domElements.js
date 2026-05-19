@@ -3,4 +3,9 @@ export const domElements = {
   urlInput: document.querySelector('#url-input'),
   urlError: document.querySelector('#url-error'),
   urlValidationResult: document.querySelector('#url-validation-result'),
+
+  messageForm: document.querySelector('#message-analysis-form'),
+  messageInput: document.querySelector('#message-input'),
+  messageError: document.querySelector('#message-error'),
+  messageValidationResult: document.querySelector('#message-validation-result'),
 };

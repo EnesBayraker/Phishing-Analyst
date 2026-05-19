@@ -6,10 +6,15 @@ import './styles/responsive.css';
 import { analyzeUrl } from './analyzer/urlAnalyzer.js';
 import { domElements } from './ui/domElements.js';
 import { renderUrlResult } from './ui/renderResult.js';
-import { validateUrlInput } from './utils/validators.js';
+import {
+  validateMessageInput,
+  validateUrlInput,
+} from './utils/validators.js';
 
 function initializeApp() {
   setupUrlForm();
+  setupMessageForm();
+
   console.log('Phishing Analyst app initialized.');
 }
 
@@ -21,6 +26,16 @@ function setupUrlForm() {
   }
 
   urlForm.addEventListener('submit', handleUrlFormSubmit);
+}
+
+function setupMessageForm() {
+  const { messageForm } = domElements;
+
+  if (!messageForm) {
+    return;
+  }
+
+  messageForm.addEventListener('submit', handleMessageFormSubmit);
 }
 
 function handleUrlFormSubmit(event) {
@@ -42,6 +57,22 @@ function handleUrlFormSubmit(event) {
   console.log('URL analysis result:', analysisResult);
 }
 
+function handleMessageFormSubmit(event) {
+  event.preventDefault();
+
+  const { messageInput } = domElements;
+  const validation = validateMessageInput(messageInput.value);
+
+  resetMessageFeedback();
+
+  if (!validation.isValid) {
+    renderMessageValidationError(validation.message);
+    return;
+  }
+
+  renderMessageValidationSuccess(validation.message);
+}
+
 function resetUrlFeedback() {
   const { urlError, urlValidationResult } = domElements;
 
@@ -51,10 +82,33 @@ function resetUrlFeedback() {
   urlValidationResult.className = '';
 }
 
+function resetMessageFeedback() {
+  const { messageError, messageValidationResult } = domElements;
+
+  messageError.textContent = '';
+  messageValidationResult.hidden = true;
+  messageValidationResult.textContent = '';
+  messageValidationResult.className = 'validation-result';
+}
+
 function renderUrlValidationError(message) {
   const { urlError } = domElements;
 
   urlError.textContent = message;
+}
+
+function renderMessageValidationError(message) {
+  const { messageError } = domElements;
+
+  messageError.textContent = message;
+}
+
+function renderMessageValidationSuccess(message) {
+  const { messageValidationResult } = domElements;
+
+  messageValidationResult.hidden = false;
+  messageValidationResult.textContent = message;
+  messageValidationResult.classList.add('validation-result-success');
 }
 
 initializeApp();

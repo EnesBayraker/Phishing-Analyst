@@ -630,3 +630,10 @@
   font-size: 0.9rem;
   line-height: 1.6;
 }
+
+.text-area {
+  min-height: 150px;
+  padding: 14px;
+  resize: vertical;
+  line-height: 1.6;
+}

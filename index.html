@@ -115,23 +115,51 @@
 </article>
 
           <article id="message-analysis" class="tool-card">
-            <div class="card-topline">
-              <span class="card-icon">✉️</span>
-              <span class="status-pill">Coming soon</span>
-            </div>
+  <div class="card-topline">
+    <span class="card-icon">✉️</span>
+    <span class="status-pill">Interactive</span>
+  </div>
 
-            <h3>Message Analysis</h3>
+  <h3>Message Analysis</h3>
 
-            <p>
-              Reviews message or email text for social engineering signals such
-              as urgency, reward promises, account warnings, and sensitive
-              information requests.
-            </p>
+  <p>
+    Paste a suspicious message or email text to check whether it contains common
+    social engineering signals. The text is analyzed only in your browser.
+  </p>
 
-            <button class="disabled-action" type="button" disabled>
-              Message form will be added soon
-            </button>
-          </article>
+  <form id="message-analysis-form" class="tool-form" novalidate>
+    <div class="input-group">
+      <label class="field-label" for="message-input">
+        Suspicious message or email text
+      </label>
+
+      <textarea
+        id="message-input"
+        class="text-input text-area"
+        name="message"
+        placeholder="Example: Your account will be closed today. Verify your password immediately..."
+        rows="7"
+      ></textarea>
+
+      <p class="helper-text">
+        Tip: Paste only the suspicious text. Do not open attachments or click
+        links inside suspicious messages.
+      </p>
+
+      <p
+        id="message-error"
+        class="form-message form-message-error"
+        aria-live="polite"
+      ></p>
+    </div>
+
+    <button class="primary-button form-button" type="submit">
+      Analyze Message
+    </button>
+  </form>
+
+  <div id="message-validation-result" class="validation-result" hidden></div>
+</article>
         </div>
       </section>
 
