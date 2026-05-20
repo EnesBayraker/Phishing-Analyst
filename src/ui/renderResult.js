@@ -170,3 +170,117 @@ function createRecommendationHtml(riskLevel) {
     </ul>
   `;
 }
+
+const MESSAGE_RISK_LEVEL_CONTENT = {
+  low: {
+    label: 'Low Risk',
+    summary:
+      'No strong social engineering signal was detected by the current message rule set. This does not guarantee the message is safe.',
+  },
+  medium: {
+    label: 'Medium Risk',
+    summary:
+      'Some suspicious wording or pressure patterns were detected. Review the message carefully before taking action.',
+  },
+  high: {
+    label: 'High Risk',
+    summary:
+      'Multiple or serious social engineering signals were detected. Do not click links or share sensitive information.',
+  },
+};
+
+export function renderMessageResult(container, analysisResult) {
+  const riskContent = MESSAGE_RISK_LEVEL_CONTENT[analysisResult.riskLevel];
+
+  container.hidden = false;
+  container.className = `analysis-result analysis-result-${analysisResult.riskLevel}`;
+
+  container.innerHTML = `
+    <div class="result-header">
+      <div>
+        <p class="result-kicker">Message analysis result</p>
+        <h3>${riskContent.label}</h3>
+      </div>
+
+      <span class="risk-badge risk-badge-${analysisResult.riskLevel}">
+        ${riskContent.label}
+      </span>
+    </div>
+
+    <div class="score-panel">
+      <div class="score-topline">
+        <span>Risk score</span>
+        <strong>${analysisResult.score}/100</strong>
+      </div>
+
+      <div class="score-track" aria-hidden="true">
+        <div
+          class="score-fill score-fill-${analysisResult.riskLevel}"
+          style="width: ${analysisResult.score}%"
+        ></div>
+      </div>
+
+      <p>${riskContent.summary}</p>
+    </div>
+
+    <div class="result-meta">
+      <div>
+        <span>Character count</span>
+        <strong>${analysisResult.characterCount}</strong>
+      </div>
+
+      <div>
+        <span>Detected links</span>
+        <strong>${analysisResult.detectedUrlCount}</strong>
+      </div>
+    </div>
+
+    <section class="result-section" aria-label="Detected message warning signs">
+      <h4>Detected warning signs</h4>
+      ${createFindingsHtml(analysisResult.findings)}
+    </section>
+
+    <section class="result-section" aria-label="Recommended next steps">
+      <h4>What should I do now?</h4>
+      ${createMessageRecommendationHtml(analysisResult.riskLevel)}
+    </section>
+
+    <p class="safe-note">
+      This is an awareness-based text review, not a final security decision.
+      The app does not open links, does not inspect attachments, and does not
+      send your message to a server.
+    </p>
+  `;
+}
+
+function createMessageRecommendationHtml(riskLevel) {
+  const recommendations = {
+    low: [
+      'Still check the sender address and the context of the message.',
+      'Do not share sensitive information unless you are sure the request is legitimate.',
+      'Use official websites or apps instead of links inside messages.',
+    ],
+    medium: [
+      'Do not click links before verifying the sender and the domain.',
+      'Do not reply with personal information, passwords, or verification codes.',
+      'Contact the organization through official channels if the message claims to be important.',
+    ],
+    high: [
+      'Do not click any link or open attachments in this message.',
+      'Do not enter passwords, card details, or verification codes.',
+      'Report, block, or delete the message if it came from an unknown or suspicious sender.',
+    ],
+  };
+
+  const items = recommendations[riskLevel]
+    .map((recommendation) => {
+      return `<li>${recommendation}</li>`;
+    })
+    .join('');
+
+  return `
+    <ul class="recommendation-list">
+      ${items}
+    </ul>
+  `;
+}

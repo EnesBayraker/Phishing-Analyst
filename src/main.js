@@ -2,10 +2,15 @@ import './styles/main.css';
 import './styles/layout.css';
 import './styles/components.css';
 import './styles/responsive.css';
+import { analyzeText } from './analyzer/textAnalyzer.js';
 
 import { analyzeUrl } from './analyzer/urlAnalyzer.js';
 import { domElements } from './ui/domElements.js';
-import { renderUrlResult } from './ui/renderResult.js';
+import {
+  renderMessageResult,
+  renderUrlResult,
+} from './ui/renderResult.js';
+
 import {
   validateMessageInput,
   validateUrlInput,
@@ -70,7 +75,10 @@ function handleMessageFormSubmit(event) {
     return;
   }
 
-  renderMessageValidationSuccess(validation.message);
+  const analysisResult = analyzeText(messageInput.value);
+
+  renderMessageResult(domElements.messageValidationResult, analysisResult);
+  console.log('Message analysis result:', analysisResult);
 }
 
 function resetUrlFeedback() {
@@ -103,12 +111,5 @@ function renderMessageValidationError(message) {
   messageError.textContent = message;
 }
 
-function renderMessageValidationSuccess(message) {
-  const { messageValidationResult } = domElements;
-
-  messageValidationResult.hidden = false;
-  messageValidationResult.textContent = message;
-  messageValidationResult.classList.add('validation-result-success');
-}
 
 initializeApp();
