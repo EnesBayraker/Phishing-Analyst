@@ -4,6 +4,7 @@ import {
   SUSPICIOUS_URL_KEYWORDS,
 } from '../data/suspiciousKeywords.js';
 import { URL_SHORTENER_DOMAINS } from '../data/shorteners.js';
+import { calculateRiskScore, getRiskLevel } from './scoring.js';
 
 const HTTPS_RISK_POINTS = 15;
 const LONG_URL_RISK_POINTS = 10;
@@ -50,7 +51,7 @@ export function analyzeUrl(rawUrl) {
   checkNumberCount(parsedUrl, findings);
   checkPunycode(parsedUrl, findings);
 
-  const score = calculateScore(findings);
+  const score = calculateRiskScore(findings);
 
   return {
     type: 'url',
@@ -338,25 +339,7 @@ function checkBrandLikeSubdomainPattern(parsedUrl, findings) {
   });
 }
 
-function calculateScore(findings) {
-  const totalPoints = findings.reduce((total, finding) => {
-    return total + finding.points;
-  }, 0);
 
-  return Math.min(totalPoints, 100);
-}
-
-function getRiskLevel(score) {
-  if (score >= 66) {
-    return 'high';
-  }
-
-  if (score >= 31) {
-    return 'medium';
-  }
-
-  return 'low';
-}
 
 function keywordAppearsInTokens(keyword, tokens) {
   return tokens.some((token) => {

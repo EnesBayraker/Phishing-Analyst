@@ -1,4 +1,5 @@
 import { TEXT_RISK_PATTERNS } from '../data/suspiciousKeywords.js';
+import { calculateRiskScore, getRiskLevel } from './scoring.js';
 
 const URL_IN_TEXT_RISK_POINTS = 18;
 const MANY_EXCLAMATIONS_RISK_POINTS = 10;
@@ -26,7 +27,7 @@ export function analyzeText(rawMessage) {
   checkExclamationCount(trimmedMessage, findings);
   checkUppercaseRatio(trimmedMessage, findings);
 
-  const score = calculateScore(findings);
+  const score = calculateRiskScore(findings);
 
   return {
     type: 'message',
@@ -131,22 +132,3 @@ function normalizeText(text) {
   return text.toLowerCase();
 }
 
-function calculateScore(findings) {
-  const totalPoints = findings.reduce((total, finding) => {
-    return total + finding.points;
-  }, 0);
-
-  return Math.min(totalPoints, 100);
-}
-
-function getRiskLevel(score) {
-  if (score >= 66) {
-    return 'high';
-  }
-
-  if (score >= 31) {
-    return 'medium';
-  }
-
-  return 'low';
-}
