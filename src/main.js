@@ -3,6 +3,7 @@ import './styles/layout.css';
 import './styles/components.css';
 import './styles/responsive.css';
 import { analyzeText } from './analyzer/textAnalyzer.js';
+import { saveAnalysisToHistory } from './storage/historyStorage.js';
 
 import { analyzeUrl } from './analyzer/urlAnalyzer.js';
 import { domElements } from './ui/domElements.js';
@@ -57,9 +58,11 @@ function handleUrlFormSubmit(event) {
   }
 
   const analysisResult = analyzeUrl(urlInput.value);
+const savedHistoryItem = saveAnalysisToHistory(analysisResult);
 
-  renderUrlResult(domElements.urlValidationResult, analysisResult);
-  console.log('URL analysis result:', analysisResult);
+renderUrlResult(domElements.urlValidationResult, analysisResult);
+console.log('URL analysis result:', analysisResult);
+console.log('Saved history item:', savedHistoryItem);
 }
 
 function handleMessageFormSubmit(event) {
@@ -76,9 +79,11 @@ function handleMessageFormSubmit(event) {
   }
 
   const analysisResult = analyzeText(messageInput.value);
+const savedHistoryItem = saveAnalysisToHistory(analysisResult);
 
-  renderMessageResult(domElements.messageValidationResult, analysisResult);
-  console.log('Message analysis result:', analysisResult);
+renderMessageResult(domElements.messageValidationResult, analysisResult);
+console.log('Message analysis result:', analysisResult);
+console.log('Saved history item:', savedHistoryItem);
 }
 
 function resetUrlFeedback() {
