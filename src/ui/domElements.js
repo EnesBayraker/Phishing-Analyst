@@ -8,4 +8,9 @@ export const domElements = {
   messageInput: document.querySelector('#message-input'),
   messageError: document.querySelector('#message-error'),
   messageValidationResult: document.querySelector('#message-validation-result'),
+
+  historySummary: document.querySelector('#history-summary'),
+  historyList: document.querySelector('#history-list'),
+  historyFilterButtons: document.querySelectorAll('[data-risk-filter]'),
+  clearHistoryButton: document.querySelector('#clear-history-button'),
 };

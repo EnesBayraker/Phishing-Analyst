@@ -3,7 +3,11 @@ import './styles/layout.css';
 import './styles/components.css';
 import './styles/responsive.css';
 import { analyzeText } from './analyzer/textAnalyzer.js';
-import { saveAnalysisToHistory } from './storage/historyStorage.js';
+import {
+  clearAnalysisHistory,
+  getAnalysisHistory,
+  saveAnalysisToHistory,
+} from './storage/historyStorage.js';
 
 import { analyzeUrl } from './analyzer/urlAnalyzer.js';
 import { domElements } from './ui/domElements.js';
@@ -13,13 +17,22 @@ import {
 } from './ui/renderResult.js';
 
 import {
+  renderHistoryList,
+  renderHistorySummary,
+} from './ui/renderHistory.js';
+
+import {
   validateMessageInput,
   validateUrlInput,
 } from './utils/validators.js';
 
+let activeHistoryFilter = 'all';
+
 function initializeApp() {
   setupUrlForm();
   setupMessageForm();
+  setupHistoryControls();
+  renderHistory();
 
   console.log('Phishing Analyst app initialized.');
 }
@@ -57,10 +70,12 @@ function handleUrlFormSubmit(event) {
     return;
   }
 
-  const analysisResult = analyzeUrl(urlInput.value);
+const analysisResult = analyzeUrl(urlInput.value);
 const savedHistoryItem = saveAnalysisToHistory(analysisResult);
 
 renderUrlResult(domElements.urlValidationResult, analysisResult);
+renderHistory();
+
 console.log('URL analysis result:', analysisResult);
 console.log('Saved history item:', savedHistoryItem);
 }
@@ -78,10 +93,12 @@ function handleMessageFormSubmit(event) {
     return;
   }
 
-  const analysisResult = analyzeText(messageInput.value);
+const analysisResult = analyzeText(messageInput.value);
 const savedHistoryItem = saveAnalysisToHistory(analysisResult);
 
 renderMessageResult(domElements.messageValidationResult, analysisResult);
+renderHistory();
+
 console.log('Message analysis result:', analysisResult);
 console.log('Saved history item:', savedHistoryItem);
 }
@@ -116,5 +133,57 @@ function renderMessageValidationError(message) {
   messageError.textContent = message;
 }
 
+function setupHistoryControls() {
+  const { historyFilterButtons, clearHistoryButton } = domElements;
+
+  historyFilterButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      activeHistoryFilter = button.dataset.riskFilter;
+      updateHistoryFilterButtons();
+      renderHistory();
+    });
+  });
+
+  if (clearHistoryButton) {
+    clearHistoryButton.addEventListener('click', handleClearHistoryClick);
+  }
+}
+
+function handleClearHistoryClick() {
+  const historyItems = getAnalysisHistory();
+
+  if (historyItems.length === 0) {
+    return;
+  }
+
+  const shouldClearHistory = window.confirm(
+    'Are you sure you want to clear all saved analysis history?',
+  );
+
+  if (!shouldClearHistory) {
+    return;
+  }
+
+  clearAnalysisHistory();
+  activeHistoryFilter = 'all';
+  updateHistoryFilterButtons();
+  renderHistory();
+}
+
+function renderHistory() {
+  const historyItems = getAnalysisHistory();
+
+  renderHistorySummary(domElements.historySummary, historyItems);
+  renderHistoryList(domElements.historyList, historyItems, activeHistoryFilter);
+}
+
+function updateHistoryFilterButtons() {
+  domElements.historyFilterButtons.forEach((button) => {
+    const isActive = button.dataset.riskFilter === activeHistoryFilter;
+
+    button.classList.toggle('is-active', isActive);
+    button.setAttribute('aria-pressed', String(isActive));
+  });
+}
 
 initializeApp();

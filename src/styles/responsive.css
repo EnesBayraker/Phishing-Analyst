@@ -18,6 +18,15 @@
   .preview-grid {
     grid-template-columns: 1fr;
   }
+
+    .history-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .history-meta-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 640px) {
@@ -84,6 +93,31 @@
 
   .finding-item .finding-points {
     width: fit-content;
+  }
+
+    .history-controls,
+  .filter-group {
+    width: 100%;
+  }
+
+  .filter-group {
+    justify-content: space-between;
+  }
+
+  .filter-button {
+    flex: 1;
+  }
+
+  .danger-button {
+    width: 100%;
+  }
+
+  .history-card-header {
+    flex-direction: column;
+  }
+
+  .history-meta-grid {
+    grid-template-columns: 1fr;
   }
 
 }
