@@ -9,6 +9,8 @@ import {
   saveAnalysisToHistory,
 } from './storage/historyStorage.js';
 
+import { LEARNING_CARDS } from './data/learningCards.js';
+
 import { analyzeUrl } from './analyzer/urlAnalyzer.js';
 import { domElements } from './ui/domElements.js';
 import {
@@ -21,6 +23,7 @@ import {
   renderHistorySummary,
 } from './ui/renderHistory.js';
 
+import { renderLearningCards } from './ui/renderLearning.js';
 import {
   validateMessageInput,
   validateUrlInput,
@@ -32,6 +35,8 @@ function initializeApp() {
   setupUrlForm();
   setupMessageForm();
   setupHistoryControls();
+
+  renderLearningCards(domElements.learningCardList, LEARNING_CARDS);
   renderHistory();
 
   console.log('Phishing Analyst app initialized.');

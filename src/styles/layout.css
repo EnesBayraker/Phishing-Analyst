@@ -54,3 +54,10 @@
   margin: 0 auto;
   padding: 0 0 32px;
 }
+
+.learning-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+}

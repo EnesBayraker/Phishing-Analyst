@@ -203,27 +203,37 @@
   <div id="history-list" class="history-list" aria-live="polite"></div>
 </section>
 
-      <section class="preview-grid" aria-label="Learning and quiz preview">
-        <article id="learning" class="feature-card">
-          <span class="card-icon">📚</span>
-          <h2>Learning Center</h2>
-          <p>
-            Short educational cards will explain phishing, URL inspection,
-            HTTPS limitations, and common social engineering tactics.
-          </p>
-          <span class="status-pill">Coming soon</span>
-        </article>
+      <section id="learning" class="section-block" aria-labelledby="learning-title">
+  <div class="section-heading">
+    <p class="eyebrow">Security education</p>
+    <h2 id="learning-title">Learning Center</h2>
+    <p>
+      Short cards explain common phishing techniques and safe habits. The goal
+      is to help users understand why a URL or message may be risky.
+    </p>
+  </div>
 
-        <article id="quiz" class="feature-card">
-          <span class="card-icon">🧠</span>
-          <h2>Scenario Quiz</h2>
-          <p>
-            Users will practice with realistic phishing scenarios, choose an
-            answer, and receive a clear explanation after each question.
-          </p>
-          <span class="status-pill">Coming soon</span>
-        </article>
-      </section>
+  <div id="learning-card-list" class="learning-grid"></div>
+</section>
+
+<section id="quiz" class="section-block" aria-labelledby="quiz-title">
+  <div class="section-heading">
+    <p class="eyebrow">Practice mode</p>
+    <h2 id="quiz-title">Scenario Quiz</h2>
+    <p>
+      Users will practice with realistic phishing scenarios, choose an answer,
+      and receive a clear explanation after each question.
+    </p>
+  </div>
+
+  <article class="empty-state-card">
+    <h3>Quiz mode is coming soon</h3>
+    <p>
+      Scenario questions and scoring logic will be added in the next development
+      steps.
+    </p>
+  </article>
+</section>
 
       <section class="disclaimer-card">
         <h2>Security Disclaimer</h2>

@@ -13,4 +13,6 @@ export const domElements = {
   historyList: document.querySelector('#history-list'),
   historyFilterButtons: document.querySelectorAll('[data-risk-filter]'),
   clearHistoryButton: document.querySelector('#clear-history-button'),
+
+  learningCardList: document.querySelector('#learning-card-list'),
 };
