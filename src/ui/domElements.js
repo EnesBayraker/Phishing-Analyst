@@ -15,4 +15,6 @@ export const domElements = {
   clearHistoryButton: document.querySelector('#clear-history-button'),
 
   learningCardList: document.querySelector('#learning-card-list'),
+
+  quizContainer: document.querySelector('#quiz-container'),
 };

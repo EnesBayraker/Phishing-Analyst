@@ -9,7 +9,13 @@ import {
   saveAnalysisToHistory,
 } from './storage/historyStorage.js';
 
+import { QUIZ_QUESTIONS } from './data/quizData.js';
 import { LEARNING_CARDS } from './data/learningCards.js';
+import {
+  createInitialQuizState,
+  getCurrentQuestion,
+  getQuizProgress,
+} from './utils/quizLogic.js';
 
 import { analyzeUrl } from './analyzer/urlAnalyzer.js';
 import { domElements } from './ui/domElements.js';
@@ -17,7 +23,7 @@ import {
   renderMessageResult,
   renderUrlResult,
 } from './ui/renderResult.js';
-
+import { renderQuizPreparation } from './ui/renderQuiz.js';
 import {
   renderHistoryList,
   renderHistorySummary,
@@ -37,8 +43,13 @@ function initializeApp() {
   setupHistoryControls();
 
   renderLearningCards(domElements.learningCardList, LEARNING_CARDS);
+  renderQuizPreparation(domElements.quizContainer, QUIZ_QUESTIONS);
   renderHistory();
 
+  const quizState = createInitialQuizState();
+
+  console.log('Quiz first question:', getCurrentQuestion(QUIZ_QUESTIONS, quizState));
+  console.log('Quiz progress:', getQuizProgress(QUIZ_QUESTIONS, quizState));
   console.log('Phishing Analyst app initialized.');
 }
 
