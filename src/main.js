@@ -2,54 +2,51 @@ import './styles/main.css';
 import './styles/layout.css';
 import './styles/components.css';
 import './styles/responsive.css';
+
 import { analyzeText } from './analyzer/textAnalyzer.js';
+import { analyzeUrl } from './analyzer/urlAnalyzer.js';
+import { LEARNING_CARDS } from './data/learningCards.js';
+import { QUIZ_QUESTIONS } from './data/quizData.js';
 import {
   clearAnalysisHistory,
   getAnalysisHistory,
   saveAnalysisToHistory,
 } from './storage/historyStorage.js';
-
-import { QUIZ_QUESTIONS } from './data/quizData.js';
-import { LEARNING_CARDS } from './data/learningCards.js';
-import {
-  createInitialQuizState,
-  getCurrentQuestion,
-  getQuizProgress,
-} from './utils/quizLogic.js';
-
-import { analyzeUrl } from './analyzer/urlAnalyzer.js';
 import { domElements } from './ui/domElements.js';
-import {
-  renderMessageResult,
-  renderUrlResult,
-} from './ui/renderResult.js';
-import { renderQuizPreparation } from './ui/renderQuiz.js';
 import {
   renderHistoryList,
   renderHistorySummary,
 } from './ui/renderHistory.js';
-
 import { renderLearningCards } from './ui/renderLearning.js';
+import { renderQuiz } from './ui/renderQuiz.js';
+import {
+  renderMessageResult,
+  renderUrlResult,
+} from './ui/renderResult.js';
+import {
+  createInitialQuizState,
+  goToNextQuizQuestion,
+  restartQuiz,
+  submitQuizAnswer,
+} from './utils/quizLogic.js';
 import {
   validateMessageInput,
   validateUrlInput,
 } from './utils/validators.js';
 
 let activeHistoryFilter = 'all';
+let quizState = createInitialQuizState();
 
 function initializeApp() {
   setupUrlForm();
   setupMessageForm();
   setupHistoryControls();
+  setupQuizControls();
 
   renderLearningCards(domElements.learningCardList, LEARNING_CARDS);
-  renderQuizPreparation(domElements.quizContainer, QUIZ_QUESTIONS);
+  renderQuiz(domElements.quizContainer, QUIZ_QUESTIONS, quizState);
   renderHistory();
 
-  const quizState = createInitialQuizState();
-
-  console.log('Quiz first question:', getCurrentQuestion(QUIZ_QUESTIONS, quizState));
-  console.log('Quiz progress:', getQuizProgress(QUIZ_QUESTIONS, quizState));
   console.log('Phishing Analyst app initialized.');
 }
 
@@ -73,6 +70,32 @@ function setupMessageForm() {
   messageForm.addEventListener('submit', handleMessageFormSubmit);
 }
 
+function setupHistoryControls() {
+  const { historyFilterButtons, clearHistoryButton } = domElements;
+
+  historyFilterButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      activeHistoryFilter = button.dataset.riskFilter;
+      updateHistoryFilterButtons();
+      renderHistory();
+    });
+  });
+
+  if (clearHistoryButton) {
+    clearHistoryButton.addEventListener('click', handleClearHistoryClick);
+  }
+}
+
+function setupQuizControls() {
+  const { quizContainer } = domElements;
+
+  if (!quizContainer) {
+    return;
+  }
+
+  quizContainer.addEventListener('click', handleQuizClick);
+}
+
 function handleUrlFormSubmit(event) {
   event.preventDefault();
 
@@ -86,14 +109,14 @@ function handleUrlFormSubmit(event) {
     return;
   }
 
-const analysisResult = analyzeUrl(urlInput.value);
-const savedHistoryItem = saveAnalysisToHistory(analysisResult);
+  const analysisResult = analyzeUrl(urlInput.value);
+  const savedHistoryItem = saveAnalysisToHistory(analysisResult);
 
-renderUrlResult(domElements.urlValidationResult, analysisResult);
-renderHistory();
+  renderUrlResult(domElements.urlValidationResult, analysisResult);
+  renderHistory();
 
-console.log('URL analysis result:', analysisResult);
-console.log('Saved history item:', savedHistoryItem);
+  console.log('URL analysis result:', analysisResult);
+  console.log('Saved history item:', savedHistoryItem);
 }
 
 function handleMessageFormSubmit(event) {
@@ -109,59 +132,41 @@ function handleMessageFormSubmit(event) {
     return;
   }
 
-const analysisResult = analyzeText(messageInput.value);
-const savedHistoryItem = saveAnalysisToHistory(analysisResult);
+  const analysisResult = analyzeText(messageInput.value);
+  const savedHistoryItem = saveAnalysisToHistory(analysisResult);
 
-renderMessageResult(domElements.messageValidationResult, analysisResult);
-renderHistory();
+  renderMessageResult(domElements.messageValidationResult, analysisResult);
+  renderHistory();
 
-console.log('Message analysis result:', analysisResult);
-console.log('Saved history item:', savedHistoryItem);
+  console.log('Message analysis result:', analysisResult);
+  console.log('Saved history item:', savedHistoryItem);
 }
 
-function resetUrlFeedback() {
-  const { urlError, urlValidationResult } = domElements;
+function handleQuizClick(event) {
+  const optionButton = event.target.closest('[data-quiz-option-id]');
+  const nextButton = event.target.closest('[data-quiz-next]');
+  const restartButton = event.target.closest('[data-quiz-restart]');
 
-  urlError.textContent = '';
-  urlValidationResult.hidden = true;
-  urlValidationResult.textContent = '';
-  urlValidationResult.className = '';
-}
+  if (optionButton) {
+    quizState = submitQuizAnswer(
+      QUIZ_QUESTIONS,
+      quizState,
+      optionButton.dataset.quizOptionId,
+    );
 
-function resetMessageFeedback() {
-  const { messageError, messageValidationResult } = domElements;
+    renderQuiz(domElements.quizContainer, QUIZ_QUESTIONS, quizState);
+    return;
+  }
 
-  messageError.textContent = '';
-  messageValidationResult.hidden = true;
-  messageValidationResult.textContent = '';
-  messageValidationResult.className = 'validation-result';
-}
+  if (nextButton) {
+    quizState = goToNextQuizQuestion(QUIZ_QUESTIONS, quizState);
+    renderQuiz(domElements.quizContainer, QUIZ_QUESTIONS, quizState);
+    return;
+  }
 
-function renderUrlValidationError(message) {
-  const { urlError } = domElements;
-
-  urlError.textContent = message;
-}
-
-function renderMessageValidationError(message) {
-  const { messageError } = domElements;
-
-  messageError.textContent = message;
-}
-
-function setupHistoryControls() {
-  const { historyFilterButtons, clearHistoryButton } = domElements;
-
-  historyFilterButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      activeHistoryFilter = button.dataset.riskFilter;
-      updateHistoryFilterButtons();
-      renderHistory();
-    });
-  });
-
-  if (clearHistoryButton) {
-    clearHistoryButton.addEventListener('click', handleClearHistoryClick);
+  if (restartButton) {
+    quizState = restartQuiz();
+    renderQuiz(domElements.quizContainer, QUIZ_QUESTIONS, quizState);
   }
 }
 
@@ -184,6 +189,36 @@ function handleClearHistoryClick() {
   activeHistoryFilter = 'all';
   updateHistoryFilterButtons();
   renderHistory();
+}
+
+function resetUrlFeedback() {
+  const { urlError, urlValidationResult } = domElements;
+
+  urlError.textContent = '';
+  urlValidationResult.hidden = true;
+  urlValidationResult.textContent = '';
+  urlValidationResult.className = '';
+}
+
+function resetMessageFeedback() {
+  const { messageError, messageValidationResult } = domElements;
+
+  messageError.textContent = '';
+  messageValidationResult.hidden = true;
+  messageValidationResult.textContent = '';
+  messageValidationResult.className = '';
+}
+
+function renderUrlValidationError(message) {
+  const { urlError } = domElements;
+
+  urlError.textContent = message;
+}
+
+function renderMessageValidationError(message) {
+  const { messageError } = domElements;
+
+  messageError.textContent = message;
 }
 
 function renderHistory() {

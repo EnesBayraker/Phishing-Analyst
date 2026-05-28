@@ -76,6 +76,15 @@
     width: 100%;
 }
 
+  .quiz-progress-header {
+    flex-direction: column;
+  }
+
+  .quiz-next-button,
+  .quiz-restart-button {
+    width: 100%;
+  }
+
   .tool-card,
   .feature-card,
   .empty-state-card,

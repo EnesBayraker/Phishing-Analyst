@@ -3,6 +3,7 @@ export function createInitialQuizState() {
     currentQuestionIndex: 0,
     selectedAnswers: [],
     score: 0,
+    feedback: null,
     isComplete: false,
   };
 }
@@ -14,7 +15,7 @@ export function getCurrentQuestion(questions, quizState) {
 export function submitQuizAnswer(questions, quizState, selectedOptionId) {
   const currentQuestion = getCurrentQuestion(questions, quizState);
 
-  if (!currentQuestion || quizState.isComplete) {
+  if (!currentQuestion || quizState.isComplete || quizState.feedback) {
     return quizState;
   }
 
@@ -37,16 +38,39 @@ export function submitQuizAnswer(questions, quizState, selectedOptionId) {
     answerRecord,
   ];
 
+  return {
+    ...quizState,
+    selectedAnswers: updatedSelectedAnswers,
+    score: calculateQuizScore(updatedSelectedAnswers),
+    feedback: {
+      questionId: currentQuestion.id,
+      selectedOptionId,
+      isCorrect: selectedOption.isCorrect,
+      explanation: currentQuestion.explanation,
+    },
+  };
+}
+
+export function goToNextQuizQuestion(questions, quizState) {
+  if (!quizState.feedback) {
+    return quizState;
+  }
+
   const isLastQuestion =
     quizState.currentQuestionIndex === questions.length - 1;
 
+  if (isLastQuestion) {
+    return {
+      ...quizState,
+      feedback: null,
+      isComplete: true,
+    };
+  }
+
   return {
-    currentQuestionIndex: isLastQuestion
-      ? quizState.currentQuestionIndex
-      : quizState.currentQuestionIndex + 1,
-    selectedAnswers: updatedSelectedAnswers,
-    score: calculateQuizScore(updatedSelectedAnswers),
-    isComplete: isLastQuestion,
+    ...quizState,
+    currentQuestionIndex: quizState.currentQuestionIndex + 1,
+    feedback: null,
   };
 }
 
