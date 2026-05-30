@@ -25,6 +25,16 @@
         <a href="#learning">Learning</a>
         <a href="#quiz">Quiz</a>
       </nav>
+
+      <button
+  id="theme-toggle-button"
+  class="theme-toggle-button"
+  type="button"
+  aria-label="Switch theme"
+>
+  <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
+  <span class="theme-toggle-text">Dark</span>
+</button>
     </header>
 
     <main id="top" class="app-shell">
@@ -106,9 +116,9 @@
       <p id="url-error" class="form-message form-message-error" aria-live="polite"></p>
     </div>
 
-    <button class="primary-button form-button" type="submit">
-      Analyze URL
-    </button>
+    <button id="url-submit-button" class="primary-button form-button" type="submit">
+  Analyze URL
+</button>
   </form>
 
   <div id="url-validation-result" class="validation-result" hidden></div>
@@ -153,9 +163,9 @@
       ></p>
     </div>
 
-    <button class="primary-button form-button" type="submit">
-      Analyze Message
-    </button>
+    <button id="message-submit-button" class="primary-button form-button" type="submit">
+  Analyze Message
+</button>
   </form>
 
   <div id="message-validation-result" class="validation-result" hidden></div>

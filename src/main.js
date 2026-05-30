@@ -23,6 +23,7 @@ import {
   renderMessageResult,
   renderUrlResult,
 } from './ui/renderResult.js';
+import { initializeThemeToggle } from './ui/themeToggle.js';
 import {
   createInitialQuizState,
   goToNextQuizQuestion,
@@ -34,10 +35,14 @@ import {
   validateUrlInput,
 } from './utils/validators.js';
 
+const ANALYSIS_DELAY_MS = 450;
+
 let activeHistoryFilter = 'all';
 let quizState = createInitialQuizState();
 
 function initializeApp() {
+  initializeThemeToggle(domElements.themeToggleButton);
+
   setupUrlForm();
   setupMessageForm();
   setupHistoryControls();
@@ -96,7 +101,7 @@ function setupQuizControls() {
   quizContainer.addEventListener('click', handleQuizClick);
 }
 
-function handleUrlFormSubmit(event) {
+async function handleUrlFormSubmit(event) {
   event.preventDefault();
 
   const { urlInput } = domElements;
@@ -109,17 +114,25 @@ function handleUrlFormSubmit(event) {
     return;
   }
 
-  const analysisResult = analyzeUrl(urlInput.value);
-  const savedHistoryItem = saveAnalysisToHistory(analysisResult);
+  setButtonLoading(domElements.urlSubmitButton, true, 'Analyzing URL');
 
-  renderUrlResult(domElements.urlValidationResult, analysisResult);
-  renderHistory();
+  try {
+    await wait(ANALYSIS_DELAY_MS);
 
-  console.log('URL analysis result:', analysisResult);
-  console.log('Saved history item:', savedHistoryItem);
+    const analysisResult = analyzeUrl(urlInput.value);
+    const savedHistoryItem = saveAnalysisToHistory(analysisResult);
+
+    renderUrlResult(domElements.urlValidationResult, analysisResult);
+    renderHistory();
+
+    console.log('URL analysis result:', analysisResult);
+    console.log('Saved history item:', savedHistoryItem);
+  } finally {
+    setButtonLoading(domElements.urlSubmitButton, false);
+  }
 }
 
-function handleMessageFormSubmit(event) {
+async function handleMessageFormSubmit(event) {
   event.preventDefault();
 
   const { messageInput } = domElements;
@@ -132,14 +145,22 @@ function handleMessageFormSubmit(event) {
     return;
   }
 
-  const analysisResult = analyzeText(messageInput.value);
-  const savedHistoryItem = saveAnalysisToHistory(analysisResult);
+  setButtonLoading(domElements.messageSubmitButton, true, 'Analyzing Message');
 
-  renderMessageResult(domElements.messageValidationResult, analysisResult);
-  renderHistory();
+  try {
+    await wait(ANALYSIS_DELAY_MS);
 
-  console.log('Message analysis result:', analysisResult);
-  console.log('Saved history item:', savedHistoryItem);
+    const analysisResult = analyzeText(messageInput.value);
+    const savedHistoryItem = saveAnalysisToHistory(analysisResult);
+
+    renderMessageResult(domElements.messageValidationResult, analysisResult);
+    renderHistory();
+
+    console.log('Message analysis result:', analysisResult);
+    console.log('Saved history item:', savedHistoryItem);
+  } finally {
+    setButtonLoading(domElements.messageSubmitButton, false);
+  }
 }
 
 function handleQuizClick(event) {
@@ -234,6 +255,30 @@ function updateHistoryFilterButtons() {
 
     button.classList.toggle('is-active', isActive);
     button.setAttribute('aria-pressed', String(isActive));
+  });
+}
+
+function setButtonLoading(button, isLoading, loadingText = '') {
+  if (!button) {
+    return;
+  }
+
+  if (isLoading) {
+    button.dataset.originalText = button.textContent.trim();
+    button.textContent = loadingText;
+    button.disabled = true;
+    button.classList.add('is-loading');
+    return;
+  }
+
+  button.textContent = button.dataset.originalText;
+  button.disabled = false;
+  button.classList.remove('is-loading');
+}
+
+function wait(milliseconds) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, milliseconds);
   });
 }
 

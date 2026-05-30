@@ -2,6 +2,9 @@
   .site-header {
     align-items: flex-start;
     flex-direction: column;
+      .theme-toggle-button {
+    align-self: flex-start;
+  }
   }
 
   .site-nav {
@@ -38,6 +41,10 @@
   .app-shell,
   .site-footer {
     width: min(100% - 20px, 1120px);
+      .theme-toggle-button {
+    width: 100%;
+    justify-content: center;
+  }
   }
 
   .site-header {
