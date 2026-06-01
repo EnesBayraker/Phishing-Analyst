@@ -1131,3 +1131,54 @@
     transform: scale(1.25);
   }
 }
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 999;
+  padding: 10px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: #04130e;
+  font-weight: 900;
+  transform: translateY(-160%);
+  transition: transform var(--transition-fast);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.site-nav a,
+.primary-button,
+.secondary-button,
+.theme-toggle-button,
+.filter-button,
+.quiz-option {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.text-input[aria-invalid='true'] {
+  border-color: var(--color-high-risk);
+  box-shadow: 0 0 0 4px rgba(255, 92, 112, 0.12);
+}
+
+.form-message-error:not(:empty) {
+  margin-top: var(--space-xs);
+}
+
+button:disabled {
+  pointer-events: none;
+}
+
+@media (hover: none) {
+  .tool-card:hover,
+  .feature-card:hover,
+  .learning-card:hover,
+  .primary-button:hover,
+  .secondary-button:hover,
+  .theme-toggle-button:hover {
+    transform: none;
+  }
+}

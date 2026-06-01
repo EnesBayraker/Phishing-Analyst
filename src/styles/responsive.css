@@ -2,9 +2,10 @@
   .site-header {
     align-items: flex-start;
     flex-direction: column;
-      .theme-toggle-button {
-    align-self: flex-start;
   }
+
+  .theme-toggle-button {
+    align-self: flex-start;
   }
 
   .site-nav {
@@ -22,7 +23,7 @@
     grid-template-columns: 1fr;
   }
 
-    .history-toolbar {
+  .history-toolbar {
     align-items: flex-start;
     flex-direction: column;
   }
@@ -31,7 +32,7 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-    .learning-grid {
+  .learning-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -41,10 +42,11 @@
   .app-shell,
   .site-footer {
     width: min(100% - 20px, 1120px);
-      .theme-toggle-button {
+  }
+
+  .theme-toggle-button {
     width: 100%;
     justify-content: center;
-  }
   }
 
   .site-header {
@@ -81,15 +83,6 @@
   .secondary-button,
   .form-button {
     width: 100%;
-}
-
-  .quiz-progress-header {
-    flex-direction: column;
-  }
-
-  .quiz-next-button,
-  .quiz-restart-button {
-    width: 100%;
   }
 
   .tool-card,
@@ -99,7 +92,7 @@
     padding: 20px;
   }
 
-    .result-header {
+  .result-header {
     flex-direction: column;
   }
 
@@ -115,7 +108,7 @@
     width: fit-content;
   }
 
-    .history-controls,
+  .history-controls,
   .filter-group {
     width: 100%;
   }
@@ -140,8 +133,16 @@
     grid-template-columns: 1fr;
   }
 
-    .learning-grid {
+  .learning-grid {
     grid-template-columns: 1fr;
   }
 
+  .quiz-progress-header {
+    flex-direction: column;
+  }
+
+  .quiz-next-button,
+  .quiz-restart-button {
+    width: 100%;
+  }
 }

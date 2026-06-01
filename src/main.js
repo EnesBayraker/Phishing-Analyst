@@ -213,33 +213,37 @@ function handleClearHistoryClick() {
 }
 
 function resetUrlFeedback() {
-  const { urlError, urlValidationResult } = domElements;
+  const { urlError, urlInput, urlValidationResult } = domElements;
 
   urlError.textContent = '';
+  urlInput.removeAttribute('aria-invalid');
   urlValidationResult.hidden = true;
   urlValidationResult.textContent = '';
   urlValidationResult.className = '';
 }
 
 function resetMessageFeedback() {
-  const { messageError, messageValidationResult } = domElements;
+  const { messageError, messageInput, messageValidationResult } = domElements;
 
   messageError.textContent = '';
+  messageInput.removeAttribute('aria-invalid');
   messageValidationResult.hidden = true;
   messageValidationResult.textContent = '';
   messageValidationResult.className = '';
 }
 
 function renderUrlValidationError(message) {
-  const { urlError } = domElements;
+  const { urlError, urlInput } = domElements;
 
   urlError.textContent = message;
+  urlInput.setAttribute('aria-invalid', 'true');
 }
 
 function renderMessageValidationError(message) {
-  const { messageError } = domElements;
+  const { messageError, messageInput } = domElements;
 
   messageError.textContent = message;
+  messageInput.setAttribute('aria-invalid', 'true');
 }
 
 function renderHistory() {

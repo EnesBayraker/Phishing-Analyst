@@ -12,8 +12,9 @@
   </head>
 
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <header class="site-header">
-      <a class="brand" href="#top" aria-label="Phishing Analyst home">
+      <a class="brand" href="#main-content" aria-label="Phishing Analyst home">
         <span class="brand-icon">PA</span>
         <span>Phishing Analyst</span>
       </a>
@@ -37,7 +38,7 @@
 </button>
     </header>
 
-    <main id="top" class="app-shell">
+    <main id="main-content" class="app-shell">
       <section class="hero-card">
         <div>
           <p class="eyebrow">Cybersecurity awareness dashboard</p>
@@ -100,18 +101,19 @@
       <label class="field-label" for="url-input">Suspicious URL</label>
 
       <input
-        id="url-input"
-        class="text-input"
-        type="text"
-        name="url"
-        placeholder="example.com/login or https://example.com"
-        autocomplete="off"
-      />
+  id="url-input"
+  class="text-input"
+  type="text"
+  name="url"
+  placeholder="example.com/login or https://example.com"
+  autocomplete="off"
+  aria-describedby="url-helper url-error"
+/>
 
-      <p class="helper-text">
-        Tip: You can paste a full URL or a domain-like link. Do not click
-        suspicious links before checking them.
-      </p>
+      <p id="url-helper" class="helper-text">
+  Tip: You can paste a full URL or a domain-like link. Do not click
+  suspicious links before checking them.
+</p>
 
       <p id="url-error" class="form-message form-message-error" aria-live="polite"></p>
     </div>
@@ -121,7 +123,13 @@
 </button>
   </form>
 
-  <div id="url-validation-result" class="validation-result" hidden></div>
+  <div
+  id="url-validation-result"
+  class="validation-result"
+  role="status"
+  aria-live="polite"
+  hidden
+></div>
 </article>
 
           <article id="message-analysis" class="tool-card">
@@ -144,17 +152,18 @@
       </label>
 
       <textarea
-        id="message-input"
-        class="text-input text-area"
-        name="message"
-        placeholder="Example: Your account will be closed today. Verify your password immediately..."
-        rows="7"
-      ></textarea>
+  id="message-input"
+  class="text-input text-area"
+  name="message"
+  placeholder="Example: Your account will be closed today. Verify your password immediately..."
+  rows="7"
+  aria-describedby="message-helper message-error"
+></textarea>
 
-      <p class="helper-text">
-        Tip: Paste only the suspicious text. Do not open attachments or click
-        links inside suspicious messages.
-      </p>
+     <p id="message-helper" class="helper-text">
+  Tip: Paste only the suspicious text. Do not open attachments or click
+  links inside suspicious messages.
+</p>
 
       <p
         id="message-error"
@@ -168,7 +177,13 @@
 </button>
   </form>
 
-  <div id="message-validation-result" class="validation-result" hidden></div>
+  <div
+  id="message-validation-result"
+  class="validation-result"
+  role="status"
+  aria-live="polite"
+  hidden
+></div>
 </article>
         </div>
       </section>
@@ -236,7 +251,7 @@
     </p>
   </div>
 
-  <div id="quiz-container" class="quiz-container"></div>
+  <div id="quiz-container" class="quiz-container" aria-live="polite"></div>
 </section>
 
       <section class="disclaimer-card">

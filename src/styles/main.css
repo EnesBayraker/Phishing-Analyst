@@ -20,6 +20,12 @@
   --color-border: rgba(255, 255, 255, 0.1);
   --color-border-strong: rgba(255, 255, 255, 0.18);
 
+    --color-input-bg: rgba(7, 17, 31, 0.72);
+  --color-input-bg-focus: rgba(7, 17, 31, 0.95);
+  --color-panel-bg: rgba(7, 17, 31, 0.48);
+  --color-soft-bg: rgba(255, 255, 255, 0.04);
+  --color-nav-bg: rgba(7, 17, 31, 0.72);
+
   --radius-sm: 10px;
   --radius-md: 16px;
   --radius-lg: 24px;
@@ -56,6 +62,12 @@
 
   --color-border: rgba(16, 24, 39, 0.12);
   --color-border-strong: rgba(16, 24, 39, 0.22);
+
+    --color-input-bg: #f8fbff;
+  --color-input-bg-focus: #ffffff;
+  --color-panel-bg: #eef4fb;
+  --color-soft-bg: rgba(16, 24, 39, 0.04);
+  --color-nav-bg: rgba(255, 255, 255, 0.78);
 
   --shadow-soft: 0 20px 60px rgba(31, 42, 68, 0.12);
   --shadow-card-hover: 0 24px 70px rgba(31, 42, 68, 0.18);
@@ -119,4 +131,15 @@ svg {
 
 section {
   scroll-margin-top: 110px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
