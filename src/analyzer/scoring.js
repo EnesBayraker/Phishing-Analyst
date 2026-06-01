@@ -1,8 +1,4 @@
-export const RISK_LEVELS = {
-  LOW: 'low',
-  MEDIUM: 'medium',
-  HIGH: 'high',
-};
+import { RISK_LEVELS } from '../utils/constants.js';
 
 const MIN_SCORE = 0;
 const MAX_SCORE = 100;

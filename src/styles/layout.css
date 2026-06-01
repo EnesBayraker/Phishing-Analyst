@@ -42,12 +42,7 @@
   margin-top: 18px;
 }
 
-.preview-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-lg);
-  margin-top: var(--space-lg);
-}
+
 
 .site-footer {
   width: min(1120px, calc(100% - 32px));

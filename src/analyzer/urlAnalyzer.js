@@ -1,3 +1,8 @@
+/**
+ * URL analyzer module.
+ * Checks visible URL patterns without visiting the URL or using external APIs.
+ */
+
 import {
   BRAND_LIKE_TERMS,
   PROMOTIONAL_URL_KEYWORDS,
@@ -5,6 +10,7 @@ import {
 } from '../data/suspiciousKeywords.js';
 import { URL_SHORTENER_DOMAINS } from '../data/shorteners.js';
 import { calculateRiskScore, getRiskLevel } from './scoring.js';
+import { ANALYSIS_TYPES } from '../utils/constants.js';
 
 const HTTPS_RISK_POINTS = 15;
 const LONG_URL_RISK_POINTS = 10;
@@ -54,7 +60,7 @@ export function analyzeUrl(rawUrl) {
   const score = calculateRiskScore(findings);
 
   return {
-    type: 'url',
+    type: ANALYSIS_TYPES.URL,
     input: trimmedUrl,
     normalizedUrl: parsedUrl.href,
     hostname: parsedUrl.hostname,

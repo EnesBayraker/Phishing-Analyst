@@ -18,8 +18,7 @@
     grid-template-columns: 1fr;
   }
 
-  .analysis-grid,
-  .preview-grid {
+  .analysis-grid {
     grid-template-columns: 1fr;
   }
 

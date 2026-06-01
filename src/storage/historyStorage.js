@@ -1,3 +1,10 @@
+/**
+ * Analysis history storage module.
+ * Stores compact analysis summaries in localStorage.
+ */
+
+import { ANALYSIS_TYPES } from '../utils/constants.js';
+
 const HISTORY_STORAGE_KEY = 'phishingAnalyst.analysisHistory';
 const MAX_HISTORY_ITEMS = 20;
 const PREVIEW_LENGTH = 90;
@@ -71,13 +78,13 @@ function createHistoryItem(analysisResult) {
 }
 
 function createHistoryMetadata(analysisResult) {
-  if (analysisResult.type === 'url') {
+  if (analysisResult.type === ANALYSIS_TYPES.URL) {
     return {
       hostname: analysisResult.hostname,
     };
   }
 
-  if (analysisResult.type === 'message') {
+  if (analysisResult.type === ANALYSIS_TYPES.MESSAGE) {
     return {
       characterCount: analysisResult.characterCount,
       detectedUrlCount: analysisResult.detectedUrlCount,

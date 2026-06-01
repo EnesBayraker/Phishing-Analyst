@@ -1,5 +1,11 @@
+/**
+ * Message analyzer module.
+ * Detects social engineering signals in suspicious message or email text.
+ */
+
 import { TEXT_RISK_PATTERNS } from '../data/suspiciousKeywords.js';
 import { calculateRiskScore, getRiskLevel } from './scoring.js';
+import { ANALYSIS_TYPES } from '../utils/constants.js';
 
 const URL_IN_TEXT_RISK_POINTS = 18;
 const MANY_EXCLAMATIONS_RISK_POINTS = 10;
@@ -30,7 +36,7 @@ export function analyzeText(rawMessage) {
   const score = calculateRiskScore(findings);
 
   return {
-    type: 'message',
+    type: ANALYSIS_TYPES.MESSAGE,
     input: trimmedMessage,
     characterCount: trimmedMessage.length,
     detectedUrlCount: countDetectedUrls(trimmedMessage),

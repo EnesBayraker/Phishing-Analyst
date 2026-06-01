@@ -35,7 +35,7 @@ import {
   validateUrlInput,
 } from './utils/validators.js';
 
-const ANALYSIS_DELAY_MS = 450;
+import { ANALYSIS_DELAY_MS } from './utils/constants.js';
 
 let activeHistoryFilter = 'all';
 let quizState = createInitialQuizState();

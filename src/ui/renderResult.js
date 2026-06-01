@@ -1,3 +1,8 @@
+/**
+ * Result rendering module.
+ * Creates user-friendly analysis result panels for URL and message checks.
+ */
+
 const RISK_LEVEL_CONTENT = {
   low: {
     label: 'Low Risk',
