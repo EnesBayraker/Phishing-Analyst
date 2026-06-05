@@ -98,9 +98,8 @@ export function getQuizProgress(questions, quizState) {
 }
 
 export function getQuizResultSummary(questions, quizState) {
-  const correctCount = quizState.selectedAnswers.filter((answer) => {
-    return answer.isCorrect;
-  }).length;
+  const uniqueAnswers = getUniqueAnswers(quizState.selectedAnswers);
+  const correctCount = uniqueAnswers.filter((answer) => answer.isCorrect).length;
 
   return {
     correctCount,
@@ -113,5 +112,17 @@ export function getQuizResultSummary(questions, quizState) {
 }
 
 function calculateQuizScore(selectedAnswers) {
-  return selectedAnswers.filter((answer) => answer.isCorrect).length;
+  const uniqueAnswers = getUniqueAnswers(selectedAnswers);
+
+  return uniqueAnswers.filter((answer) => answer.isCorrect).length;
+}
+
+function getUniqueAnswers(selectedAnswers) {
+  const latestAnswerByQuestion = new Map();
+
+  selectedAnswers.forEach((answer) => {
+    latestAnswerByQuestion.set(answer.questionId, answer);
+  });
+
+  return Array.from(latestAnswerByQuestion.values());
 }

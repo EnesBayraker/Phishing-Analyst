@@ -134,4 +134,112 @@ export const QUIZ_QUESTIONS = [
     explanation:
       'Verification codes can give someone access to your account. You should never share them through messages or calls.',
   },
+  {
+    id: 'fake-support-email',
+    type: 'message',
+    title: 'Fake support email',
+    scenario:
+      'You receive an email from a company you use, asking you to confirm billing details through a link.',
+    question: 'What is the safest response?',
+    options: [
+      {
+        id: 'follow-link-now',
+        text: 'Follow the link to confirm your billing information.',
+        isCorrect: false,
+      },
+      {
+        id: 'visit-official-site',
+        text: 'Open the official website manually and check your billing status there.',
+        isCorrect: true,
+      },
+      {
+        id: 'reply-with-details',
+        text: 'Reply to the email with the requested details.',
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      'Always use official websites or verified apps instead of clicking links in unexpected billing or support messages.',
+  },
+  {
+    id: 'unusual-sender',
+    type: 'message',
+    title: 'Unknown sender with urgency',
+    scenario:
+      'A message from an unknown sender says your bank account has unusual activity and demands immediate action.',
+    question: 'What warning sign is most suspicious?',
+    options: [
+      {
+        id: 'bank-sound',
+        text: 'It sounds like the bank, so it must be real.',
+        isCorrect: false,
+      },
+      {
+        id: 'urgency-and-unknown',
+        text: 'Urgency from an unknown sender is a red flag.',
+        isCorrect: true,
+      },
+      {
+        id: 'no-link',
+        text: 'There is no link, so it is safe.',
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      'Urgent demands from unknown senders are a common phishing technique, even if the message sounds official.',
+  },
+  {
+    id: 'account-login-link',
+    type: 'url',
+    title: 'Account login link',
+    scenario:
+      'A message encourages you to log in to your account through a link that contains a brand name before the real domain.',
+    question: 'Why is this link suspicious?',
+    options: [
+      {
+        id: 'brand-name-hides-domain',
+        text: 'The brand name is part of the subdomain, not the actual website.',
+        isCorrect: true,
+      },
+      {
+        id: 'brand-makes-it-safe',
+        text: 'The brand name makes the link safe, even if the domain is unfamiliar.',
+        isCorrect: false,
+      },
+      {
+        id: 'https-guarantees-safe',
+        text: 'If the link uses HTTPS, the site is safe.',
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      'Brand names placed in subdomains can trick users. The real domain is more important than familiar words in the link.',
+  },
+  {
+    id: 'fake-reward',
+    type: 'message',
+    title: 'Fake reward offer',
+    scenario:
+      'You see a message claiming you won a prize and should claim it immediately by clicking a link.',
+    question: 'What is the best action?',
+    options: [
+      {
+        id: 'claim-prize-now',
+        text: 'Click the link to claim the prize quickly.',
+        isCorrect: false,
+      },
+      {
+        id: 'ignore-unexpected',
+        text: 'Ignore the message and verify through official channels if needed.',
+        isCorrect: true,
+      },
+      {
+        id: 'share-with-friends',
+        text: 'Share the offer with friends to see if it is real.',
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      'Unexpected reward offers are often phishing scams. Verify prizes through official accounts, not unknown links.',
+  },
 ];

@@ -53,4 +53,22 @@ export const LEARNING_CARDS = [
       'When in doubt, avoid clicking the link. Visit the official website directly or contact the organization through verified channels.',
     tip: 'Use official apps, bookmarks, or manually typed addresses instead of suspicious links.',
   },
+  {
+    id: 'verify-sender',
+    icon: '📧',
+    title: 'Verify the sender',
+    category: 'Email safety',
+    description:
+      'Check the sender address carefully. Phishing messages often come from lookalike domains or unfamiliar senders.',
+    tip: 'If the sender address looks strange, do not trust the message even if the subject seems relevant.',
+  },
+  {
+    id: 'hover-before-click',
+    icon: '🖱️',
+    title: 'Hover before clicking',
+    category: 'Link safety',
+    description:
+      'Hover over a link to see the real destination before clicking. The displayed text may be different from the actual URL.',
+    tip: 'If the URL preview looks suspicious or unfamiliar, do not click the link.',
+  },
 ];

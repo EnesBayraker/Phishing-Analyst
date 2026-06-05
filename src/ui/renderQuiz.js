@@ -32,7 +32,7 @@ function createQuestionHtml(question, progress, quizState) {
     <article class="quiz-card">
       <div class="quiz-progress-header">
         <div>
-          <span class="quiz-kicker">Question ${progress.answeredCount + 1} of ${progress.totalCount}</span>
+          <span class="quiz-kicker">Question ${quizState.currentQuestionIndex + 1} of ${progress.totalCount}</span>
           <h3>${escapeHtml(question.title)}</h3>
         </div>
 
