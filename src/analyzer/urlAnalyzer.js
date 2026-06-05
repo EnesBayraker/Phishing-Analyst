@@ -21,6 +21,13 @@ const MANY_SUBDOMAINS_RISK_POINTS = 25;
 const MANY_HYPHENS_RISK_POINTS = 15;
 const MANY_NUMBERS_RISK_POINTS = 12;
 const PUNYCODE_RISK_POINTS = 30;
+const SUSPICIOUS_PORT_RISK_POINTS = 20;
+const COMPLEX_QUERY_RISK_POINTS = 15;
+const SUSPICIOUS_TLD_RISK_POINTS = 25;
+const CREDENTIAL_PREFIXING_RISK_POINTS = 35;
+const NUMERIC_DOMAIN_RISK_POINTS = 18;
+const TYPOSQUATTING_RISK_POINTS = 22;
+const CONSECUTIVE_SPECIAL_CHARS_RISK_POINTS = 12;
 
 const LONG_URL_LIMIT = 75;
 const MANY_SUBDOMAINS_LIMIT = 2;
@@ -30,6 +37,20 @@ const MAX_KEYWORD_POINTS = 65;
 const PROMOTIONAL_SUBDOMAIN_RISK_POINTS = 15;
 const PROMOTIONAL_ROOT_DOMAIN_RISK_POINTS = 20;
 const BRAND_SUBDOMAIN_RISK_POINTS = 25;
+const SUSPICIOUS_PORTS = [80, 443, 8080, 8443, 3000, 5000, 9000];
+const SUSPICIOUS_TLDS = ['tk', 'ml', 'ga', 'cf', 'download', 'loan', 'review', 'gdn', 'space'];
+const COMMON_BRAND_TYPOS = {
+  'amzon': 'amazon',
+  'ggogle': 'google',
+  'gogle': 'google',
+  'micsoft': 'microsoft',
+  'microosft': 'microsoft',
+  'appel': 'apple',
+  'facbook': 'facebook',
+  'payble': 'paypal',
+  'paypel': 'paypal',
+  'netflic': 'netflix',
+};
 
 /**
  * Analyzes a URL as plain text.
@@ -46,6 +67,7 @@ export function analyzeUrl(rawUrl) {
   checkHttps(parsedUrl, findings);
   checkUrlLength(trimmedUrl, findings);
   checkAtSymbol(trimmedUrl, findings);
+  checkCredentialPrefixing(trimmedUrl, findings);
   checkIpAddressDomain(parsedUrl, findings);
   checkSuspiciousKeywords(parsedUrl, findings);
   checkUrlShortener(parsedUrl, findings);
@@ -55,7 +77,13 @@ export function analyzeUrl(rawUrl) {
   checkPromotionalSubdomainPattern(parsedUrl, findings);
   checkHyphenCount(parsedUrl, findings);
   checkNumberCount(parsedUrl, findings);
+  checkConsecutiveSpecialChars(parsedUrl, findings);
   checkPunycode(parsedUrl, findings);
+  checkSuspiciousPort(parsedUrl, findings);
+  checkComplexQueryString(parsedUrl, findings);
+  checkSuspiciousTld(parsedUrl, findings);
+  checkNumericDomain(parsedUrl, findings);
+  checkTyposquatting(parsedUrl, findings);
 
   const score = calculateRiskScore(findings);
 
@@ -342,6 +370,133 @@ function checkBrandLikeSubdomainPattern(parsedUrl, findings) {
     title: 'Brand-like word appears in subdomain',
     description: `The subdomain contains brand-like wording: ${matchedBrands.join(', ')}. Attackers may place trusted names in subdomains while the real main domain is different.`,
     points: BRAND_SUBDOMAIN_RISK_POINTS,
+  });
+}
+
+function checkCredentialPrefixing(rawUrl, findings) {
+  if (!/^[a-zA-Z][a-zA-Z\d+.-]*:\/\/[^\/]*:[^\/]*@/.test(rawUrl)) {
+    return;
+  }
+
+  findings.push({
+    id: 'credential-prefixing',
+    title: 'URL contains embedded credentials',
+    description:
+      'The URL contains what looks like username and password. This is a strong warning sign as legitimate services do not embed credentials in URLs.',
+    points: CREDENTIAL_PREFIXING_RISK_POINTS,
+  });
+}
+
+function checkSuspiciousPort(parsedUrl, findings) {
+  if (!parsedUrl.port) {
+    return;
+  }
+
+  const port = parseInt(parsedUrl.port, 10);
+
+  if (!SUSPICIOUS_PORTS.includes(port)) {
+    return;
+  }
+
+  findings.push({
+    id: 'suspicious-port',
+    title: 'Non-standard port detected',
+    description:
+      'The URL specifies an unusual port number. While not always malicious, suspicious URLs sometimes use non-standard ports to bypass filters.',
+    points: SUSPICIOUS_PORT_RISK_POINTS,
+  });
+}
+
+function checkComplexQueryString(parsedUrl, findings) {
+  const params = new URLSearchParams(parsedUrl.search);
+  const paramCount = Array.from(params.keys()).length;
+
+  if (paramCount <= 5) {
+    return;
+  }
+
+  findings.push({
+    id: 'complex-query-string',
+    title: 'Complex query string detected',
+    description:
+      'The URL contains many parameters. Complex query strings can hide suspicious tracking or redirect parameters.',
+    points: COMPLEX_QUERY_RISK_POINTS,
+  });
+}
+
+function checkSuspiciousTld(parsedUrl, findings) {
+  const hostname = parsedUrl.hostname.toLowerCase();
+  const tld = hostname.split('.').pop();
+
+  if (!SUSPICIOUS_TLDS.includes(tld)) {
+    return;
+  }
+
+  findings.push({
+    id: 'suspicious-tld',
+    title: 'Suspicious top-level domain',
+    description: `The domain uses ".${tld}" which is commonly associated with phishing and malware. Verify the site carefully before interacting.`,
+    points: SUSPICIOUS_TLD_RISK_POINTS,
+  });
+}
+
+function checkNumericDomain(parsedUrl, findings) {
+  const hostname = parsedUrl.hostname;
+  const withoutDots = hostname.replace(/\./g, '');
+  const digitCount = (withoutDots.match(/\d/g) ?? []).length;
+  const ratio = digitCount / withoutDots.length;
+
+  if (ratio < 0.5) {
+    return;
+  }
+
+  findings.push({
+    id: 'numeric-domain',
+    title: 'Domain is mostly numbers',
+    description:
+      'Domains composed primarily of numbers are often used in phishing to obfuscate the real destination.',
+    points: NUMERIC_DOMAIN_RISK_POINTS,
+  });
+}
+
+function checkTyposquatting(parsedUrl, findings) {
+  const hostname = parsedUrl.hostname.toLowerCase();
+  const tokens = getUrlTokens(parsedUrl);
+
+  const matchedTypos = Object.keys(COMMON_BRAND_TYPOS).filter((typo) => {
+    return tokens.some((token) => token === typo || token.includes(typo));
+  });
+
+  if (matchedTypos.length === 0) {
+    return;
+  }
+
+  const suggestedBrands = matchedTypos
+    .map((typo) => COMMON_BRAND_TYPOS[typo])
+    .join(', ');
+
+  findings.push({
+    id: 'typosquatting',
+    title: 'Possible typosquatting detected',
+    description: `The domain appears to be a misspelling of: ${suggestedBrands}. Attackers use similar-looking domains to trick users into visiting their sites.`,
+    points: TYPOSQUATTING_RISK_POINTS,
+  });
+}
+
+function checkConsecutiveSpecialChars(parsedUrl, findings) {
+  const hostname = parsedUrl.hostname;
+  const consecutiveCount = (hostname.match(/[-_.]{2,}/g) ?? []).length;
+
+  if (consecutiveCount === 0) {
+    return;
+  }
+
+  findings.push({
+    id: 'consecutive-special-chars',
+    title: 'Consecutive special characters in domain',
+    description:
+      'Domains with consecutive hyphens, underscores, or dots can look confusing and may be used to obfuscate the real domain name.',
+    points: CONSECUTIVE_SPECIAL_CHARS_RISK_POINTS,
   });
 }
 
