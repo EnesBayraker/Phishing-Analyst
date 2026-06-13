@@ -1,4 +1,5 @@
 # Phishing Analyst
+<img width="1069" height="670" alt="image" src="https://github.com/user-attachments/assets/4f62b694-3f09-42c0-b28c-0ed8bbb89fc2" />
 
 ## Overview
 
